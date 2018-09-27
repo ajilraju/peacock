@@ -48,15 +48,16 @@ function env_setup() {
     local unit_file="/tmp/peacock/unit-service.txt"
 
     if [ -d $base_dir ]; then
-        
+        echo "nothing to do."
     else
-        mkdir 
+        #mkdir $base_dir
+        echo $base_dir
     fi
     
     if [ -e $unit_file ]; then
-        
+        echo "nothing to do."
     else
-        touch /tmp/peacock/unit-service.txt
+        touch $unit_file
     fi
     service --status-all | more | awk '{print $4}' >> /tmp/peacock/unit-service.txt
 }
