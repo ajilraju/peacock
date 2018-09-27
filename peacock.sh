@@ -36,7 +36,7 @@ function opt_selector() {
             #
             ;;
         *)
-            echo "Usage: $0 (unit|process|uid|path|kernel|prty)"
+            echo -e "Usage: $0 (unit|process|uid|path|kernel|prty)"
             ;;
 esac
         
