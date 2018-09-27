@@ -43,8 +43,21 @@ esac
 
 # initialize the environment for the program
 function env_setup() {
-    mkdir /tmp/peacock
-    touch /tmp/peacock/unit-service.txt
+
+    local base_dir="/tmp/peacock/"
+    local unit_file="/tmp/peacock/unit-service.txt"
+
+    if [ -d $base_dir ]; then
+        
+    else
+        mkdir 
+    fi
+    
+    if [ -e $unit_file ]; then
+        
+    else
+        touch /tmp/peacock/unit-service.txt
+    fi
     service --status-all | more | awk '{print $4}' >> /tmp/peacock/unit-service.txt
 }
 
