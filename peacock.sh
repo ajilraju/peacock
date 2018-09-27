@@ -39,8 +39,18 @@ function opt_selector() {
             echo -e "Usage: $0 (unit|process|uid|path|kernel|prty)"
             ;;
 esac
-        
 }
+
+# initialize the environment for the program
+function env_setup() {
+    mkdir /tmp/peacock
+    touch /tmp/peacock/unit-service.txt
+    service --status-all | more | awk '{print $4}' >> /tmp/peacock/unit-service.txt
+}
+
+# environment setup func call
+env_setup
+
 # to check wether command with no arguments.
 if [ -z "$1" ]; then
     usage
