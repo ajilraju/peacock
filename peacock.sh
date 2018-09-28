@@ -16,9 +16,13 @@ function usage() {
 
 # command option selector to further process.
 function opt_selector() {
+
+    # to store the second argument associated with first args.
+    second_arg=$2
+
     case "$1" in 
         "unit")
-            #
+            unit_display $second_arg
             ;;
         "process")
             #
@@ -41,17 +45,17 @@ function opt_selector() {
 esac
 }
 
-# initialize the environment for the program
+# initialize the environment for the program.
 function env_setup() {
 
-    local base_dir="/tmp/peacock/"
-    local unit_file="/tmp/peacock/unit-service.txt"
+    base_dir="/tmp/peacock/"
+    unit_file="/tmp/peacock/unit-service.txt"
 
     if [ -d $base_dir ]; then
         echo "nothing to do."
     else
-        #mkdir $base_dir
-        echo $base_dir
+        mkdir $base_dir
+        #echo $base_dir    
     fi
     
     if [ -e $unit_file ]; then
@@ -59,15 +63,33 @@ function env_setup() {
     else
         touch $unit_file
     fi
-    service --status-all | more | awk '{print $4}' >> /tmp/peacock/unit-service.txt
+    service --status-all | more | awk '{print $4}' >> $unit_file
 }
 
-# environment setup func call
+function unit_display() {
+    # to store local command and service extension.
+    local base_cmd="journalctl -u "
+    local service=".service"
+
+    # read each command and check against them.
+    while read -r line
+    do
+        echo $line
+        if [ "$1" = "$line" ]; then
+            # run as a command eg: journalctl -u ssh.service.
+            command $base_cmd$1$service
+            exit 0
+        else 
+            echo "Couldn't find $1 service."
+        fi
+    done < $unit_file
+}
+# environment setup func call.
 env_setup
 
 # to check wether command with no arguments.
 if [ -z "$1" ]; then
     usage
 else 
-    opt_selector $1
+    opt_selector $1 $2
 fi
