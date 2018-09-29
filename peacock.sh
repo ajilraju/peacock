@@ -7,7 +7,7 @@ function usage() {
     echo -e "\twatchdog.sh command [arguments]\n"
     echo -e "The command are:\n"
     echo -e "\tunit        Units running on system.\n
-        process     Process ID uses for filtering.\n
+        pid         Process ID uses for filtering.\n
         uid         User ID uses for filtering.\n
         path        Path location of the program.\n
         kernel      Display the kernel messages.\n
@@ -24,8 +24,8 @@ function opt_selector() {
         "unit")
             unit_display $second_arg
             ;;
-        "process")
-            #
+        "pid")
+            pid_display $second_arg
             ;;
         "uid")
             #
@@ -66,6 +66,7 @@ function env_setup() {
     service --status-all | more | awk '{print $4}' >> $unit_file
 }
 
+# to handle the unit based systemd logs.
 function unit_display() {
     # to store local command and service extension.
     local base_cmd="journalctl -u "
@@ -83,6 +84,13 @@ function unit_display() {
             echo "Couldn't find $1 service."
         fi
     done < $unit_file
+}
+# to handle the pid based systemd logs.
+function pid_display() {
+    local base_cmd="journalctl _PID="
+    command $base_cmd$1
+    exit 0
+
 }
 # environment setup func call.
 env_setup
