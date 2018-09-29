@@ -34,7 +34,7 @@ function opt_selector() {
             #
             ;;
         "kernel")
-            #
+            kernel_display 
             ;;
         "prty")
             #
@@ -100,6 +100,14 @@ function uid_display() {
     command $base_cmd$1
     exit 0
 }
+
+# to display the kernel related logs.
+function kernel_display() {
+    local base_cmd="journalctl -k"
+    command $base_cmd
+    exit 0
+}
+
 
 # environment setup func call.
 env_setup
