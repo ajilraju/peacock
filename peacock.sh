@@ -28,7 +28,7 @@ function opt_selector() {
             pid_display $second_arg
             ;;
         "uid")
-            #
+            uid_display $second_arg
             ;;
         "path")
             #
@@ -85,6 +85,7 @@ function unit_display() {
         fi
     done < $unit_file
 }
+
 # to handle the pid based systemd logs.
 function pid_display() {
     local base_cmd="journalctl _PID="
@@ -92,6 +93,14 @@ function pid_display() {
     exit 0
 
 }
+
+# to handle the uid based systemd logs.
+function uid_display() {
+    local base_cmd="journalctl _UID="
+    command $base_cmd$1
+    exit 0
+}
+
 # environment setup func call.
 env_setup
 
