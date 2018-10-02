@@ -2,7 +2,7 @@
 
 # command usage option and args display.
 function usage() {
-    echo -e "watchdog.sh is a logging tool.\n"
+    echo -e "peacock.sh is a logging tool.\n"
     echo -e "Usage:\n"
     echo -e "\twatchdog.sh command [arguments]\n"
     echo -e "The command are:\n"
