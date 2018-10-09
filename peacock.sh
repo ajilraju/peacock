@@ -22,7 +22,7 @@ function opt_selector() {
 
     case "$1" in 
         "unit")
-            unit_display $second_arg
+            unit_display $second_arg #$redirec_arg $target_arg
             ;;
         "pid")
             pid_display $second_arg
@@ -31,7 +31,7 @@ function opt_selector() {
             uid_display $second_arg
             ;;
         "path")
-            #
+            component_path $second_arg
             ;;
         "kernel")
             kernel_display 
@@ -50,7 +50,23 @@ function env_setup() {
 
     base_dir="/tmp/peacock/"
     unit_file="/tmp/peacock/unit-service.txt"
+    PE_file="/tmp/peacock/PE_*"
 
+    target_file=(PE_unit PE_pid PE_uid PE_path PE_kernel)
+    cd $base_dir
+
+    for file in ${target_file[*]}
+    do
+     if [ -d $file ]; then
+
+        echo "Initializing..."
+    else
+
+        mkdir $base_dir$file
+    
+    fi
+    done
+   
     if [ -d $base_dir ]; then
         echo "nothing to do."
     else
@@ -71,7 +87,6 @@ function unit_display() {
     # to store local command and service extension.
     local base_cmd="journalctl -u "
     local service=".service"
-
     # read each command and check against them.
     while read -r line
     do
@@ -108,6 +123,12 @@ function kernel_display() {
     exit 0
 }
 
+# to handle component path log check
+function component_path() {
+    local base_cmd="journalctl "
+    command $base_cmd$1
+    exit 0
+}
 
 # environment setup func call.
 env_setup
