@@ -117,7 +117,10 @@ function pid_display() {
 # to handle the uid based systemd logs.
 function uid_display() {
     local base_cmd="journalctl _UID="
+    local PE_target="/tmp/peacock/PE_uid/PE_UID"
+
     command $base_cmd$1
+    command $base_cmd$1 >> $PE_target
     exit 0
 }
 
