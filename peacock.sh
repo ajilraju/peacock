@@ -93,8 +93,8 @@ function unit_display() {
     do
         if [ "$1" = "$line" ]; then
             # run as a command eg: journalctl -u ssh.service.
-            $base_cmd$1$service
-            $base_cmd$1$service >> $PE_target
+            command $base_cmd$1$service
+            command $base_cmd$1$service >> $PE_target
             exit 0
         else 
            clear screen
