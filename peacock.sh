@@ -127,7 +127,10 @@ function uid_display() {
 # to display the kernel related logs.
 function kernel_display() {
     local base_cmd="journalctl -k"
-    command $base_cmd
+    local PE_target="/tmp/peacock/PE_kernel/PE_KERNEL"
+
+    command $base_cmd$1
+    command $base_cmd$1 >> $PE_target
     exit 0
 }
 
