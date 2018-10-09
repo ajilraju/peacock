@@ -137,7 +137,10 @@ function kernel_display() {
 # to handle component path log check
 function component_path() {
     local base_cmd="journalctl "
+    local PE_target="/tmp/peacock/PE_path/PE_PATH"
+
     command $base_cmd$1
+    command $base_cmd$1 >> $PE_target
     exit 0
 }
 
