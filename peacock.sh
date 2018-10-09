@@ -22,7 +22,7 @@ function opt_selector() {
 
     case "$1" in 
         "unit")
-            unit_display $second_arg #$redirec_arg $target_arg
+            unit_display $second_arg 
             ;;
         "pid")
             pid_display $second_arg
@@ -87,16 +87,18 @@ function unit_display() {
     # to store local command and service extension.
     local base_cmd="journalctl -u "
     local service=".service"
+    local PE_target="/tmp/peacock/PE_unit/PE_UNIT"
     # read each command and check against them.
     while read -r line
     do
-        echo $line
         if [ "$1" = "$line" ]; then
             # run as a command eg: journalctl -u ssh.service.
-            command $base_cmd$1$service
+            $base_cmd$1$service
+            $base_cmd$1$service >> $PE_target
             exit 0
         else 
-            echo "Couldn't find $1 service."
+           clear screen
+            #echo "Couldn't find $1 service." 2> /dev/null
         fi
     done < $unit_file
 }
