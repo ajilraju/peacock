@@ -106,7 +106,10 @@ function unit_display() {
 # to handle the pid based systemd logs.
 function pid_display() {
     local base_cmd="journalctl _PID="
+    local PE_target="/tmp/peacock/PE_pid/PE_PID"
+
     command $base_cmd$1
+    command $base_cmd$1 >> $PE_target
     exit 0
 
 }
